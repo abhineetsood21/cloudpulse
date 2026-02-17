@@ -12,8 +12,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Create billing data directory
-RUN mkdir -p /data/billing/aws /data/billing/gcp /data/billing/azure
+# Create billing data directories for all supported providers
+RUN mkdir -p /data/billing/aws /data/billing/gcp /data/billing/azure \
+    /data/billing/oracle /data/billing/alibaba /data/billing/ibm \
+    /data/billing/digitalocean /data/billing/snowflake /data/billing/databricks \
+    /data/billing/datadog /data/billing/newrelic /data/billing/confluent \
+    /data/billing/mongo-atlas /data/billing/elastic /data/billing/cloudflare
 
 EXPOSE 8000
 

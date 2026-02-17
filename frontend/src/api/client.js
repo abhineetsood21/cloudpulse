@@ -132,6 +132,14 @@ export const api = {
   validateCQL: (filter) =>
     request('/query/validate', { method: 'POST', body: JSON.stringify({ filter }) }, V2_BASE_URL),
 
+  // --- v2 Dashboard ---
+  getDashboardSummaryV2: () =>
+    request('/dashboard/summary', {}, V2_BASE_URL),
+
+  // --- v2 Cost Query ---
+  queryCosts: (data) =>
+    request('/query', { method: 'POST', body: JSON.stringify(data) }, V2_BASE_URL),
+
   // --- v2 Integrations ---
   getIntegrationsCatalog: () =>
     request('/integrations/catalog', {}, V2_BASE_URL),

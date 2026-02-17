@@ -117,7 +117,7 @@ export default function Anomalies() {
 
   return (
     <div className="animate-fadeIn">
-      <PageHeader title="Anomalies" description="Unusual cost spikes detected in your AWS accounts" icon={AlertTriangle}>
+      <PageHeader title="Anomalies" description="Unusual cost spikes detected across your connected providers" icon={AlertTriangle}>
         <div className="flex gap-1 p-1 rounded-[var(--radius-md)]" style={{ backgroundColor: 'var(--color-surface-secondary)' }}>
           {['all', 'critical', 'warning', 'info'].map((f) => (
             <button key={f} onClick={() => setFilter(f)}
@@ -253,7 +253,7 @@ export default function Anomalies() {
 
       {/* Anomaly List */}
       {filtered.length === 0 ? (
-        <EmptyState icon={CheckCircle} title="No anomalies detected" description="Your AWS spending is within normal ranges. We'll alert you if anything unusual happens." />
+        <EmptyState icon={CheckCircle} title="No anomalies detected" description="Your spending is within normal ranges across all connected providers. We'll alert you if anything unusual happens." />
       ) : (
         <div className="space-y-4 stagger-children">
           {filtered.map((anomaly) => (

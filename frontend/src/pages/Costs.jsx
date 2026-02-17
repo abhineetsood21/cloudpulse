@@ -196,7 +196,7 @@ export default function Costs() {
   }
 
   if (loading) return <CostsSkeleton />;
-  if (!costs) return <EmptyState icon={DollarSign} title="No account connected" description="Connect an AWS account to view cost data." />;
+  if (!costs) return <EmptyState icon={DollarSign} title="No provider connected" description="Connect a cloud or SaaS provider to view cost data." actionLabel="Connect a Provider" onAction={() => window.location.href = '/integrations'} />;
 
   const avgDay = costs.total_spend / (costs.daily_totals.length || 1);
 

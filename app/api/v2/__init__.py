@@ -22,6 +22,7 @@ from app.api.v2.providers import router as providers_router
 from app.api.v2.kubernetes import router as kubernetes_router
 from app.api.v2.integrations import router as integrations_router
 from app.api.v2.webhooks import router as webhooks_router
+from app.api.v2.dashboard import router as dashboard_router
 
 v2_router = APIRouter()
 
@@ -41,3 +42,4 @@ v2_router.include_router(providers_router)
 v2_router.include_router(kubernetes_router)
 v2_router.include_router(integrations_router)
 v2_router.include_router(webhooks_router)
+v2_router.include_router(dashboard_router)

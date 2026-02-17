@@ -76,7 +76,7 @@ export default function Tags() {
 
   return (
     <div className="animate-fadeIn">
-      <PageHeader title="Tag Breakdown" description="View costs grouped by AWS resource tags" icon={Tag} />
+      <PageHeader title="Tag Breakdown" description="View costs grouped by resource tags across providers" icon={Tag} />
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* Tag list */}

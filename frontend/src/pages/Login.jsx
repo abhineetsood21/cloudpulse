@@ -3,11 +3,11 @@ import { useAuth } from '../context/AuthContext';
 import { DollarSign, TrendingUp, Shield, Zap, BarChart3, Bell, Eye, EyeOff } from 'lucide-react';
 
 const features = [
-  { icon: DollarSign, title: 'Cost Monitoring', desc: 'Track AWS spending across all services in real-time' },
+  { icon: DollarSign, title: 'Cost Monitoring', desc: 'Track cloud and SaaS spending across all providers in real-time' },
   { icon: TrendingUp, title: 'AI-Powered Insights', desc: 'Plain-English explanations of cost changes' },
   { icon: Bell, title: 'Budget Alerts', desc: 'Get notified before you overspend' },
   { icon: BarChart3, title: 'Cost Forecasting', desc: 'Predict end-of-month spend accurately' },
-  { icon: Shield, title: '5-Minute Setup', desc: 'One-click CloudFormation — no credentials stored' },
+  { icon: Shield, title: '5-Minute Setup', desc: 'Connect any provider in minutes — no credentials stored' },
   { icon: Zap, title: 'Savings Engine', desc: 'Find idle resources and save up to 40%' },
 ];
 
@@ -87,12 +87,12 @@ export default function Login() {
             </div>
             <span className="text-white text-2xl font-bold tracking-tight">CloudPulse</span>
           </div>
-          <p className="text-indigo-200 text-sm">AWS Cost Monitoring for Modern Teams</p>
+          <p className="text-indigo-200 text-sm">Cloud Cost Management for Modern Teams</p>
         </div>
 
         <div className="relative z-10">
           <h2 className="text-white text-3xl font-bold leading-tight mb-3">
-            Stop overpaying<br />for AWS.
+            Stop overpaying<br />for cloud.
           </h2>
           <p className="text-indigo-200 text-lg mb-10 max-w-md">
             Join teams saving thousands monthly with AI-powered cost intelligence. Set up in 5 minutes.
@@ -127,7 +127,7 @@ export default function Login() {
               </div>
               <span className="text-2xl font-bold text-gradient">CloudPulse</span>
             </div>
-            <p className="text-sm" style={{ color: 'var(--color-text-tertiary)' }}>AWS Cost Monitoring</p>
+            <p className="text-sm" style={{ color: 'var(--color-text-tertiary)' }}>Cloud Cost Management</p>
           </div>
 
           <div className="mb-8">
@@ -135,7 +135,7 @@ export default function Login() {
               {isSignup ? 'Create your account' : 'Welcome back'}
             </h2>
             <p className="text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-              {isSignup ? 'Start monitoring your AWS costs in minutes' : 'Sign in to your CloudPulse dashboard'}
+              {isSignup ? 'Start monitoring your cloud costs in minutes' : 'Sign in to your CloudPulse dashboard'}
             </p>
           </div>
 

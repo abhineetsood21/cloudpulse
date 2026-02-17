@@ -58,7 +58,7 @@ export default function Recommendations() {
     <div className="animate-fadeIn">
       <PageHeader
         title="Recommendations"
-        description="Cost optimization opportunities across your AWS accounts"
+        description="Cost optimization opportunities across your connected providers"
         icon={Lightbulb}
       />
 

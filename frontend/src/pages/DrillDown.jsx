@@ -92,7 +92,7 @@ export default function DrillDown() {
   }
 
   if (!data) {
-    return <EmptyState icon={HelpCircle} title="No account connected" description="Connect an AWS account to analyze cost changes." />;
+    return <EmptyState icon={HelpCircle} title="No provider connected" description="Connect a cloud or SaaS provider to analyze cost changes." actionLabel="Connect a Provider" onAction={() => window.location.href = '/integrations'} />;
   }
 
   // Prepare chart data — top 10 service changes sorted by absolute change

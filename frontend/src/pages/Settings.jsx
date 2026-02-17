@@ -374,7 +374,7 @@ export default function SettingsPage() {
                 <div className="flex items-center justify-between p-4 rounded-[var(--radius-md)]" style={{ backgroundColor: 'var(--color-surface-secondary)' }}>
                   <div>
                     <p className="text-sm font-medium" style={{ color: 'var(--color-text-primary)' }}>Daily Digest</p>
-                    <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Get a daily summary of your AWS spending</p>
+                    <p className="text-xs" style={{ color: 'var(--color-text-tertiary)' }}>Get a daily summary of your cloud spending</p>
                   </div>
                   <Badge variant="neutral">Coming Soon</Badge>
                 </div>

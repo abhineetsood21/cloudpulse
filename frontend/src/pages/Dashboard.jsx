@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 import {
   DollarSign, Server, AlertTriangle, Lightbulb, TrendingUp, Sparkles,
-  ArrowRight, Wallet, Eye, BarChart3,
+  ArrowRight, Wallet, Eye, BarChart3, Plug,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
@@ -47,23 +47,29 @@ const chartTooltipStyle = {
 export default function Dashboard() {
   const navigate = useNavigate();
   const [summary, setSummary] = useState(null);
+  const [v2Summary, setV2Summary] = useState(null);
   const [costs, setCosts] = useState(null);
   const [forecast, setForecast] = useState(null);
   const [insight, setInsight] = useState(null);
   const [accounts, setAccounts] = useState([]);
+  const [integrations, setIntegrations] = useState([]);
   const [selectedAccountId, setSelectedAccountId] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    async function loadAccounts() {
+    async function loadData() {
       try {
-        const [summaryData, accountsData] = await Promise.all([
-          api.getDashboardSummary(),
-          api.getAccounts(),
+        const [summaryData, accountsData, integrationsData, v2SummaryData] = await Promise.all([
+          api.getDashboardSummary().catch(() => null),
+          api.getAccounts().catch(() => []),
+          api.listIntegrations().catch(() => []),
+          api.getDashboardSummaryV2().catch(() => null),
         ]);
         setSummary(summaryData);
         setAccounts(accountsData);
+        setIntegrations(integrationsData);
+        setV2Summary(v2SummaryData);
         if (accountsData.length > 0 && !selectedAccountId) {
           setSelectedAccountId(accountsData[0].id);
         }
@@ -73,7 +79,7 @@ export default function Dashboard() {
         setLoading(false);
       }
     }
-    loadAccounts();
+    loadData();
   }, []);
 
   useEffect(() => {
@@ -108,14 +114,16 @@ export default function Dashboard() {
     );
   }
 
-  if (accounts.length === 0) {
+  const hasAnyProvider = accounts.length > 0 || integrations.length > 0;
+
+  if (!hasAnyProvider) {
     return (
       <EmptyState
-        icon={Server}
-        title="No AWS accounts connected"
-        description="Connect your first AWS account to start monitoring costs. Takes less than 5 minutes with our CloudFormation template."
-        actionLabel="Go to Settings"
-        onAction={() => navigate('/settings')}
+        icon={Plug}
+        title="No providers connected"
+        description="Connect your first cloud or SaaS provider to start tracking costs. Supports AWS, Azure, GCP, Datadog, Snowflake, and 20+ more."
+        actionLabel="Connect a Provider"
+        onAction={() => navigate('/integrations')}
       />
     );
   }
@@ -140,7 +148,7 @@ export default function Dashboard() {
         <div>
           <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)' }}>Dashboard</h1>
           <p className="mt-1 text-sm" style={{ color: 'var(--color-text-secondary)' }}>
-            Overview of your AWS spending
+            Overview of your cloud and SaaS spending
           </p>
         </div>
         {accounts.length > 1 && (
@@ -156,7 +164,7 @@ export default function Dashboard() {
           >
             {accounts.map((acc) => (
               <option key={acc.id} value={acc.id}>
-                {acc.account_name || acc.aws_account_id}
+                {acc.account_name || acc.provider || 'Account'}
               </option>
             ))}
           </select>
@@ -171,9 +179,9 @@ export default function Dashboard() {
           value={`$${summary?.mtd_spend?.toFixed(2) || '0.00'}`}
         />
         <StatCard
-          icon={Server}
-          label="Active Accounts"
-          value={summary?.active_accounts || 0}
+          icon={Plug}
+          label="Connected Providers"
+          value={(v2Summary?.active_integrations || 0) + (accounts.length || 0)}
         />
         <StatCard
           icon={AlertTriangle}
@@ -306,7 +314,7 @@ export default function Dashboard() {
                 <p className="font-semibold">{forecast.days_remaining}</p>
               </div>
             </div>
-            <p className="text-xs opacity-50 mt-3">Source: {forecast.source === 'aws' ? 'AWS Cost Explorer' : 'Linear projection'}</p>
+          <p className="text-xs opacity-50 mt-3">Source: {forecast.source === 'aws' ? 'Cost Explorer API' : 'Linear projection'}</p>
           </div>
         )}
 
