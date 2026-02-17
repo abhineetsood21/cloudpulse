@@ -1,0 +1,41 @@
+# CloudPulse Agent Configuration
+
+replicaCount: 1
+
+image:
+  repository: cloudpulse/agent
+  pullPolicy: IfNotPresent
+  tag: ""  # Defaults to appVersion
+
+cloudpulse:
+  apiToken: ""  # Required: your CloudPulse API token
+  apiUrl: "https://api.cloudpulse.dev"
+  workspaceToken: ""  # Required: CloudPulse workspace token
+  clusterName: ""  # Optional: name for this cluster in CloudPulse
+  collectionInterval: "60s"  # How often to collect metrics
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+
+rbac:
+  create: true  # Create ClusterRole/ClusterRoleBinding for metrics access
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+# Prometheus metrics export
+metrics:
+  enabled: false
+  port: 9090
+  path: /metrics

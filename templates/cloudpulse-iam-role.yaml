@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  CloudPulse - Cross-Account IAM Role for Cost Monitoring.
+  Creates a read-only role that CloudPulse uses to access your Cost Explorer data.
+
+Parameters:
+  ExternalId:
+    Type: String
+    Description: Unique external ID provided by CloudPulse for secure role assumption.
+    MinLength: 1
+  CloudPulseAccountId:
+    Type: String
+    Default: '855583223430'
+    Description: The AWS account ID where CloudPulse runs.
+
+Resources:
+  CloudPulseCostReaderRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: CloudPulseCostReader
+      Description: Read-only role for CloudPulse to access AWS Cost Explorer data
+      MaxSessionDuration: 3600
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub 'arn:aws:iam::${CloudPulseAccountId}:root'
+            Action: 'sts:AssumeRole'
+            Condition:
+              StringEquals:
+                'sts:ExternalId': !Ref ExternalId
+      Policies:
+        - PolicyName: CloudPulseCostExplorerReadOnly
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 'ce:GetCostAndUsage'
+                  - 'ce:GetCostForecast'
+                  - 'ce:GetDimensionValues'
+                  - 'ce:GetTags'
+                  - 'ce:GetReservationUtilization'
+                  - 'ce:GetSavingsPlansUtilization'
+                Resource: '*'
+              - Effect: Allow
+                Action:
+                  - 'ec2:DescribeInstances'
+                  - 'ec2:DescribeVolumes'
+                  - 'ec2:DescribeSnapshots'
+                  - 'cloudwatch:GetMetricStatistics'
+                Resource: '*'
+
+Outputs:
+  RoleArn:
+    Description: The ARN of the IAM role created for CloudPulse
+    Value: !GetAtt CloudPulseCostReaderRole.Arn
+  ExternalId:
+    Description: The external ID used for role assumption
+    Value: !Ref ExternalId

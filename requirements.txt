@@ -1,0 +1,50 @@
+# Web Framework
+fastapi==0.115.0
+uvicorn[standard]==0.30.0
+
+# Database
+sqlalchemy[asyncio]==2.0.35
+asyncpg==0.30.0
+alembic==1.13.0
+
+# AWS
+boto3==1.35.0
+
+# Analytics
+duckdb==1.1.0
+pyarrow==17.0.0
+
+# GCP
+google-cloud-bigquery==3.25.0
+google-auth==2.34.0
+
+# Azure
+azure-identity==1.18.0
+azure-storage-blob==12.22.0
+
+# Authentication
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+
+# Alerts
+sendgrid==6.11.0
+httpx==0.27.0  # For Slack webhooks and async HTTP
+
+# Payments
+stripe==10.0.0
+
+# Scheduling
+apscheduler==3.10.4
+
+# Utilities
+python-dotenv==1.0.1
+pydantic==2.9.0
+pydantic-settings==2.5.0
+email-validator==2.2.0
+
+# Testing
+pytest==8.3.0
+pytest-asyncio==0.24.0
+
+# Development
+ruff==0.6.0

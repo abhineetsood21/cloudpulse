@@ -1,0 +1,54 @@
+# Environment
+.env
+.env.local
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.ruff_cache/
+
+# Node / Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Data (generated at runtime)
+*.duckdb
+*.duckdb.wal
+data/
+billing_data/
+
+# Docker volumes
+pgdata/
+
+# Logs
+*.log
+
+# SDK build
+sdk/python/dist/
+sdk/python/*.egg-info/

@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cloudpulse-agent.fullname" . }}
+  labels:
+    app.kubernetes.io/name: cloudpulse-agent
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: cloudpulse-agent
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: cloudpulse-agent
+    spec:
+      serviceAccountName: {{ .Values.serviceAccount.name }}
+      containers:
+        - name: agent
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CLOUDPULSE_API_URL
+              value: {{ .Values.cloudpulse.apiUrl | quote }}
+            - name: CLOUDPULSE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "cloudpulse-agent.fullname" . }}
+                  key: api-token
+            - name: CLOUDPULSE_CLUSTER_ID
+              value: {{ .Values.cloudpulse.clusterId | quote }}
+            - name: PUSH_INTERVAL_SECONDS
+              value: {{ .Values.cloudpulse.pushIntervalSeconds | quote }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

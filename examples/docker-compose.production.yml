@@ -1,0 +1,34 @@
+# Production overlay — use with:
+#   docker compose -f docker-compose.yml -f examples/docker-compose.production.yml up -d
+#
+# This example shows how to customize CloudPulse for production deployments.
+
+services:
+  postgres:
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}  # Set in .env or CI secrets
+    volumes:
+      - /var/lib/cloudpulse/postgres:/var/lib/postgresql/data
+    restart: always
+
+  api:
+    environment:
+      APP_ENV: production
+      DATABASE_URL: postgresql+asyncpg://cloudpulse:${POSTGRES_PASSWORD}@postgres:5432/cloudpulse
+      APP_SECRET_KEY: ${APP_SECRET_KEY}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY}
+      WEBHOOK_URL: ${WEBHOOK_URL:-}
+      WEBHOOK_SECRET: ${WEBHOOK_SECRET:-}
+    volumes:
+      - /var/lib/cloudpulse/billing:/data
+    restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+
+  frontend:
+    restart: always
+    ports:
+      - "80:80"
+      # - "443:443"  # Uncomment if using TLS termination in nginx

@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "cloudpulse-agent.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "cloudpulse-agent.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "cloudpulse-agent.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "cloudpulse-agent.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ include "cloudpulse-agent.serviceAccountName" . }}
+      containers:
+        - name: agent
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: CLOUDPULSE_API_TOKEN
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "cloudpulse-agent.fullname" . }}
+                  key: api-token
+            - name: CLOUDPULSE_API_URL
+              value: {{ .Values.cloudpulse.apiUrl | quote }}
+            - name: CLOUDPULSE_WORKSPACE_TOKEN
+              value: {{ .Values.cloudpulse.workspaceToken | quote }}
+            - name: CLOUDPULSE_CLUSTER_NAME
+              value: {{ .Values.cloudpulse.clusterName | default .Release.Name | quote }}
+            - name: COLLECTION_INTERVAL
+              value: {{ .Values.cloudpulse.collectionInterval | quote }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

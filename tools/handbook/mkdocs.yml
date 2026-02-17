@@ -1,0 +1,60 @@
+site_name: Cloud Cost Handbook
+site_description: A comprehensive guide to understanding and optimizing cloud costs
+site_url: https://handbook.cloudpulse.dev
+repo_url: https://github.com/cloudpulse/handbook
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Fundamentals:
+    - What is FinOps?: fundamentals/finops.md
+    - Cloud Billing Models: fundamentals/billing-models.md
+    - Cost Allocation: fundamentals/cost-allocation.md
+    - Tagging Strategy: fundamentals/tagging.md
+  - AWS:
+    - EC2 Cost Optimization: aws/ec2.md
+    - RDS Cost Optimization: aws/rds.md
+    - S3 Storage Tiers: aws/s3.md
+    - Lambda Pricing: aws/lambda.md
+    - Reserved Instances vs Savings Plans: aws/ri-vs-sp.md
+    - EKS Cost Management: aws/eks.md
+  - Strategies:
+    - Right-Sizing: strategies/right-sizing.md
+    - Spot Instances: strategies/spot.md
+    - Auto-Scaling: strategies/auto-scaling.md
+    - Data Transfer Costs: strategies/data-transfer.md
+    - Multi-Account Strategy: strategies/multi-account.md
+  - Tools:
+    - CloudPulse: tools/cloudpulse.md
+    - AWS Cost Explorer: tools/aws-cost-explorer.md
+    - CQL Reference: tools/cql.md
+
+markdown_extensions:
+  - admonition
+  - codehilite
+  - toc:
+      permalink: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true

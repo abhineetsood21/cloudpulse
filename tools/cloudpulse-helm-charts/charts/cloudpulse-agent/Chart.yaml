@@ -1,0 +1,17 @@
+apiVersion: v2
+name: cloudpulse-agent
+description: CloudPulse Kubernetes cost monitoring agent
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - cost
+  - monitoring
+  - finops
+  - kubernetes
+home: https://cloudpulse.dev
+sources:
+  - https://github.com/cloudpulse/cloudpulse-helm-charts
+maintainers:
+  - name: CloudPulse
+    email: helm@cloudpulse.dev

@@ -1,0 +1,16 @@
+Business Source License 1.1 (BUSL-1.1)
+
+Parameters
+
+Licensor: The CloudPulse Authors
+Licensed Work: CloudPulse — the software in this repository (including all subdirectories), excluding any components that are separately licensed.
+Additional Use Grant: You may use, copy, modify, and self-host the Licensed Work for non-production evaluation, internal tooling, research, or personal/commercial use that does not provide a cloud cost management, cost visibility, or cost optimization product or service to third parties. You may also use the Licensed Work in production provided that (a) your organization’s aggregate cloud spend across all providers is less than US$25,000 per month; and (b) you do not offer the Licensed Work as a hosted service or embed its functionality in a product that competes with CloudPulse.
+Change Date: 2029-02-17
+Change License: Apache License, Version 2.0
+
+Notice
+Use of the Licensed Work is governed by the Business Source License 1.1. The full text is available at https://mariadb.com/bsl11/ (the “License”). The terms of the License are incorporated by reference. To the extent there is any conflict between the License text at the URL and any reproduced text, the version at the URL controls.
+
+After the Change Date, use of the Licensed Work will be governed by the Change License stated above.
+
+Copyright © 2026 The CloudPulse Authors

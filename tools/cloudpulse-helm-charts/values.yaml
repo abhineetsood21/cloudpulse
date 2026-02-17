@@ -1,0 +1,38 @@
+# CloudPulse Kubernetes Cost Agent
+# Collects node/pod resource metrics and pushes to CloudPulse API
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/cloudpulse/k8s-agent
+  tag: latest
+  pullPolicy: IfNotPresent
+
+cloudpulse:
+  # CloudPulse API endpoint
+  apiUrl: "https://api.cloudpulse.io"
+  # API token for authentication (created in Settings > API Keys)
+  apiToken: ""
+  # Cluster identifier (auto-detected if empty)
+  clusterId: ""
+  # Metrics push interval in seconds
+  pushIntervalSeconds: 300
+
+serviceAccount:
+  create: true
+  name: cloudpulse-agent
+
+rbac:
+  create: true
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 50m
+    memory: 64Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}

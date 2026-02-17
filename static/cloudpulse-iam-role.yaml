@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  CloudPulse — Cross-account IAM role for cost monitoring.
+  Grants read-only access to Cost Explorer, EC2, RDS, ELB, and S3 billing data.
+
+Parameters:
+  ExternalId:
+    Type: String
+    Description: External ID for secure cross-account access (provided by CloudPulse).
+    MinLength: 1
+  TrustedAccountId:
+    Type: String
+    Default: "000000000000"
+    Description: >
+      The AWS account ID that hosts CloudPulse. Replace with your CloudPulse host account.
+
+Resources:
+  CloudPulseRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: CloudPulseCostReader
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !Sub "arn:aws:iam::${TrustedAccountId}:root"
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                sts:ExternalId: !Ref ExternalId
+      Policies:
+        - PolicyName: CloudPulseCostReadOnly
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              # Cost Explorer
+              - Effect: Allow
+                Action:
+                  - ce:GetCostAndUsage
+                  - ce:GetCostForecast
+                  - ce:GetReservationUtilization
+                  - ce:GetSavingsPlansUtilization
+                  - ce:GetSavingsPlansCoverage
+                  - ce:GetReservationCoverage
+                  - ce:GetRightsizingRecommendation
+                  - ce:GetTags
+                  - ce:GetDimensionValues
+                Resource: "*"
+              # EC2 — for recommendation scanning
+              - Effect: Allow
+                Action:
+                  - ec2:DescribeInstances
+                  - ec2:DescribeAddresses
+                  - ec2:DescribeVolumes
+                  - ec2:DescribeSnapshots
+                Resource: "*"
+              # RDS
+              - Effect: Allow
+                Action:
+                  - rds:DescribeDBInstances
+                Resource: "*"
+              # ELB
+              - Effect: Allow
+                Action:
+                  - elasticloadbalancing:DescribeLoadBalancers
+                  - elasticloadbalancing:DescribeTargetGroups
+                  - elasticloadbalancing:DescribeTargetHealth
+                Resource: "*"
+              # CloudWatch — for utilisation metrics
+              - Effect: Allow
+                Action:
+                  - cloudwatch:GetMetricStatistics
+                  - cloudwatch:ListMetrics
+                Resource: "*"
+              # CUR S3 bucket (if using CUR ingestor)
+              - Effect: Allow
+                Action:
+                  - s3:GetObject
+                  - s3:ListBucket
+                Resource:
+                  - "arn:aws:s3:::*cur*"
+                  - "arn:aws:s3:::*cur*/*"
+
+Outputs:
+  RoleArn:
+    Description: Paste this ARN into CloudPulse to connect your account.
+    Value: !GetAtt CloudPulseRole.Arn
+  ExternalId:
+    Description: The External ID used for this connection.
+    Value: !Ref ExternalId

@@ -1,0 +1,14 @@
+{
+  "name": "@cloudpulse/js",
+  "version": "0.1.0",
+  "description": "Lightweight JavaScript SDK for the CloudPulse Cloud Cost Management API",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test"
+  },
+  "keywords": ["cloud", "cost", "management", "aws", "finops"],
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
